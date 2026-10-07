@@ -1,0 +1,7 @@
+\copy (WITH ps AS (SELECT patient_id, SUM(paid_amt) AS total FROM claims_clean GROUP BY patient_id), r AS (SELECT *, NTILE(10) OVER (ORDER BY total DESC) AS decile FROM ps) SELECT decile, COUNT(*) AS patients, SUM(total) AS spend, ROUND(100.0 * SUM(total) / SUM(SUM(total)) OVER (), 1) AS pct_of_total FROM r GROUP BY decile ORDER BY decile) TO 'C:/Users/idesa/OneDrive/Desktop/claims-analysis/exports/spend_deciles.csv' CSV HEADER
+
+\copy (SELECT claim_type, COUNT(*) AS claims, SUM(paid_amt) AS total_paid FROM claims_clean GROUP BY claim_type) TO 'C:/Users/idesa/OneDrive/Desktop/claims-analysis/exports/claim_types.csv' CSV HEADER
+
+\copy (WITH pat AS (SELECT patient_id, SUM(paid_amt) AS spend FROM claims_clean WHERE EXTRACT(YEAR FROM from_dt) = 2009 GROUP BY patient_id), c AS (SELECT "DESYNPUF_ID" AS patient_id, ("SP_DIABETES"=1)::int + ("SP_CHF"=1)::int + ("SP_CHRNKIDN"=1)::int + ("SP_CNCR"=1)::int + ("SP_COPD"=1)::int + ("SP_DEPRESSN"=1)::int + ("SP_ISCHMCHT"=1)::int + ("SP_ALZHDMTA"=1)::int AS n_cond FROM beneficiary WHERE year = 2009) SELECT n_cond, COUNT(*) AS patients, ROUND(AVG(COALESCE(p.spend, 0)), 0) AS avg_spend FROM c LEFT JOIN pat p USING (patient_id) GROUP BY n_cond ORDER BY n_cond) TO 'C:/Users/idesa/OneDrive/Desktop/claims-analysis/exports/chronic_conditions.csv' CSV HEADER
+
+\copy (SELECT * FROM provider_outliers WHERE z >= 3 AND excess_paid > 0 ORDER BY excess_paid DESC) TO 'C:/Users/idesa/OneDrive/Desktop/claims-analysis/exports/provider_outliers.csv' CSV HEADER
