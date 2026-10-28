@@ -52,3 +52,13 @@
 
 \- Provider outlier amounts are an upper bound
 
+
+
+\## Monthly trend
+
+\- Monthly spend ramps up in H1 2008 (17.6M to about 30M), holds at about 25-31M through 2009, then falls to 4.1M by Dec 2010 (2010 total down 46% vs 2009)
+
+\- Beneficiaries fell only 3% over the period, so membership does not explain the 2010 decline; likely an artifact of the synthetic data
+
+\- Single-year comparisons use 2009 (the only full, stable year)
+
