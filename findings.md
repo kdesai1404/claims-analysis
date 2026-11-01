@@ -12,7 +12,7 @@
 
 \## Spend concentration
 
-\- Inpatient claims are 7.8% of claims but about 74% of spend
+\- Inpatient claims are 7.9% of claims but about 74% of spend
 
 \- Top 10% of patients drive 51.1% of spend; top 30% drive 82.8%
 
